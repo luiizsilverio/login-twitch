@@ -51,8 +51,16 @@ export function Home() {
   const { signOut, user, isLoggingOut } = useAuth();
 
   // creates a function to handle sign out
-    // try to call and wait signOut
-    // if fails, display an Alert with the title "Erro SignOut" and message "Ocorreu um erro ao tentar se deslogar do app"
+  async function handleSignOut() {
+    try {
+      // try to call and wait signOut
+      await signOut()
+
+    } catch (err) {
+      // if fails, display an Alert with the title "Erro SignOut" and message "Ocorreu um erro ao tentar se deslogar do app"
+      Alert.alert("Erro SignOut", "Ocorreu um erro ao tentar se deslogar do app")
+    }
+  }
 
   async function getTopGames() {
     try {
@@ -121,11 +129,25 @@ export function Home() {
           <UserInfoText style={{ fontFamily: theme.fonts.bold }}>{user.display_name}</UserInfoText>
         </UserInfo>
 
-        {/* <SignOutButton onPress={}>
+        <SignOutButton onPress={handleSignOut}>
+          {
+            isLoggingOut
+            ? 
+              <ActivityIndicator 
+                size={25}
+                color={theme.colors.white}
+              />
+            : 
+              <Feather
+                name="power"
+                size={24}
+                color={theme.colors.white}
+              />
+          }
           Verify if isLoggingOut is true
           If it is, show an ActivityIndicator
           Otherwise, show Feather's power icon
-        </SignOutButton> */}
+        </SignOutButton>
       </Header>
 
       <UserFollowedStreams>
